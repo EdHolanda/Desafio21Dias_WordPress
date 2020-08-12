@@ -24,17 +24,35 @@
         <!-- Portfolio Grid Items-->
         <div class="row">
 
-  <?php
-    if (have_posts()) {
-      while (have_posts()) {
-        the_post();
-  ?>
+    <!--?php
+      if (have_posts()) {
+        $i=1;
+        while (have_posts()) {
+          the_post();
+          $portfolioId="portfolioModal".$i;
+    ?>-->
+    <?php
+      $args = array(
+        'posts_per_page'=> 3,
+        'post_type'=> 'post'
+      );
+      $the_query_post = new WP_Query($args);
+      if($the_query_post->have_posts()){           
+          //$i=1;
+          // while ($the_query_post->have_posts()) {                
+          //     $the_query_post->the_post();   
+        foreach ($the_query_post->posts as $key => $post) {
+                # code...
+          
+                //$portfolioId= "portfolioModal".$i;                            
+    ?>
     
     <!-- Portfolio Item 1-->
     <div class="col-md-6 col-lg-4 mb-5">
-      <div class="portfolio-item mx-auto" data-toggle="modal" data-target="#portfolioModal1">
+    <div class="portfolio-item mx-auto" data-toggle="modal" data-target="#portfolioModal<?php echo the_id(); ?>">
+      <!--<div class="portfolio-item mx-auto" data-toggle="modal" data-target=<?php echo "'#{$portfolioId}'"?>>-->
         <div class="portfolio-item-caption d-flex align-items-center justify-content-center h-100 w-100">
-          <div class="portfolio-item-caption-content text-center text-white"><?php echo the_title(); ?></i></div>
+          <div class="portfolio-item-caption-content text-center text-white"><?php the_title(); ?></i></div>
         </div>
 
         <!--<div class="row">-->
@@ -46,7 +64,9 @@
       
       <!-- Portfolio Modals-->
       <!-- Portfolio Modal 1-->
-      <div class="portfolio-modal modal fade" id="portfolioModal1" tabindex="-1" role="dialog" aria-labelledby="portfolioModal1Label" aria-hidden="true">
+      <div class="portfolio-modal modal fade" id="portfolioModal<?php echo the_id(); ?>" tabindex="-1" role="dialog" 
+        aria-labelledby="portfolioModal<?php echo the_id(); ?>Label" aria-hidden="true">
+        <!-- <div class="portfolio-modal modal fade" id=<?php echo "'#{$portfolioId}'"?> tabindex="-1" role="dialog" aria-labelledby=<?php echo "'#{$portfolioId}'"?> aria-hidden="true">-->
         <div class="modal-dialog modal-xl" role="document">
           <div class="modal-content">
             <button class="close" type="button" data-dismiss="modal" aria-label="Close">
@@ -57,7 +77,10 @@
                 <div class="row justify-content-center">
                   <div class="col-lg-8">
                     <!-- Portfolio Modal - Title-->
-                    <h2 class="portfolio-modal-title text-secondary text-uppercase mb-0" id="portfolioModal1Label">Log Cabin</h2>
+                    <h2 class="portfolio-modal-title text-secondary text-uppercase mb-0" 
+                      id="portfolioModal1Label"><?php //the_title(); 
+                        echo $post->post_title;?>
+                    </h2>
                     <!-- Icon Divider-->
                     <div class="divider-custom">
                       <div class="divider-custom-line"></div>
@@ -65,9 +88,13 @@
                       <div class="divider-custom-line"></div>
                     </div>
                     <!-- Portfolio Modal - Image-->
-                    <img class="img-fluid rounded mb-5" src="<?php echo get_stylesheet_directory_uri() ?>/assets/img/portfolio/cabin.png" alt="" />
+                    <?php the_post_thumbnail('thumbnail', array('class' => 'img-fluid rounded mb-5')); ?> 
                     <!-- Portfolio Modal - Text-->
-                    <p class="mb-5">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Mollitia neque assumenda ipsam nihil, molestias magnam, recusandae quos quis inventore quisquam velit asperiores, vitae? Reprehenderit soluta, eos quod consequuntur itaque. Nam.</p>
+                    <p class="mb-5">
+                    <?php //the_content(); 
+                       echo $post->post_content;
+                    ?>
+                    </p>
                     <button class="btn btn-primary" data-dismiss="modal">
                     <i class="fas fa-times fa-fw"></i>
                     Close Window
@@ -80,10 +107,17 @@
         </div>
       </div>
     <!-- Portfolio Item 1 Fim-->
-    <?php
-        } // end while
-      } // end if
-      ?>
+    <?php           
+      //$i++;
+        }// end while
+      }//
+      else{ ?>
+        <div class="text-center mt-4 alert alert-danger" role="alert">
+            <p >Nenhum post encontrado!</p>
+        </div>
+        <?php           
+      }//end if
+    ?>
     </div>
   </div>
   </section>
