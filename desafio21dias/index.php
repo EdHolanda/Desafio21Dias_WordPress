@@ -10,6 +10,23 @@
    */
   get_header();
   ?>
+    <!-- Masthead-->
+    <header class="masthead bg-primary text-white text-center">
+      <div class="container d-flex align-items-center flex-column">
+        <!-- Masthead Avatar Image-->
+        <img class="masthead-avatar mb-5" src="<?php echo get_stylesheet_directory_uri() ?>/assets/img/edilson.jpg" alt="" />
+        <!-- Masthead Heading-->
+        <h1 class="masthead-heading text-uppercase mb-0">Edilson Holanda</h1>
+        <!-- Icon Divider-->
+        <div class="divider-custom divider-light">
+          <div class="divider-custom-line"></div>
+          <div class="divider-custom-icon"><i class="fas fa-star"></i></div>
+          <div class="divider-custom-line"></div>
+        </div>
+        <!-- Masthead Subheading-->
+        <p class="masthead-subheading font-weight-light mb-0">DBA Pleno - Dev Aprendiz</p>
+      </div>
+    </header>
     <!-- Portfolio Section-->
     <section class="page-section portfolio" id="portfolio">
       <div class="container">
@@ -38,19 +55,19 @@
       );
       $the_query_post = new WP_Query($args);
       if($the_query_post->have_posts()){           
-          //$i=1;
-          // while ($the_query_post->have_posts()) {                
-          //     $the_query_post->the_post();   
-        foreach ($the_query_post->posts as $key => $post) {
+          while ($the_query_post->have_posts()) {                
+            $the_query_post->the_post();   
+        //foreach ($the_query_post->posts as $key => $post) {
                 # code...
           
-                //$portfolioId= "portfolioModal".$i;                            
+                //$portfolioId= "portfolioModal".$i;  
+                
     ?>
     
     <!-- Portfolio Item 1-->
     <div class="col-md-6 col-lg-4 mb-5">
-    <div class="portfolio-item mx-auto" data-toggle="modal" data-target="#portfolioModal<?php echo the_id(); ?>">
-      <!--<div class="portfolio-item mx-auto" data-toggle="modal" data-target=<?php echo "'#{$portfolioId}'"?>>-->
+    <div class="portfolio-item mx-auto" data-toggle="modal" data-target="#portfolioModal<?php the_id(); ?>">
+      <!--<div class="portfolio-item mx-auto" data-toggle="modal" data-target="#<?php the_id() ?>">-->
         <div class="portfolio-item-caption d-flex align-items-center justify-content-center h-100 w-100">
           <div class="portfolio-item-caption-content text-center text-white"><?php the_title(); ?></i></div>
         </div>
@@ -110,6 +127,9 @@
     <?php           
       //$i++;
         }// end while
+    ?>
+        <a href="mais-itens" class="btn btn-primary" style="width:100%;text-align:center">Ver mais</a>
+    <?php
       }//
       else{ ?>
         <div class="text-center mt-4 alert alert-danger" role="alert">
